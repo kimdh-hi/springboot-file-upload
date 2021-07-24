@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div class="text-center my-4">
+        <h2>파일 업로드 폼</h2>
+    </div>
+    <form th:action th:object="${item}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="itemName">상품명</label>
+            <input type="text" th:field="*{itemName}" class="form-control" id="itemName">
+        </div>
+
+        <hr class="my-4">
+        <div>
+            <label for="qty">상품개수</label>
+            <input type="text" th:field="*{qty}" class="form-control" id="qty">
+        </div>
+
+        <hr class="my-4">
+        <div>
+            <input type="file" th:field="*{file}" class="form-control">
+        </div>
+        <br/>
+
+        <button class="btn-primary" type="submit">
+            전송
+        </button>
+    </form>
+</div>
+
+</body>
+</html>
