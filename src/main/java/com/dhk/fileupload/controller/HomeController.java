@@ -10,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 
@@ -36,7 +38,13 @@ public class HomeController {
     }
 
     @PostMapping("/form")
-    public String saveFormRequests(@ModelAttribute("item") ItemRequest itemRequest) throws IOException {
+    public String saveFormRequests(
+            @Valid @ModelAttribute("item") ItemRequest itemRequest,
+            BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors()) {
+            log.info("BindingResult = {}", bindingResult.getFieldError());
+            return "home";
+        }
         String itemName = itemRequest.getItemName();
         Integer qty = itemRequest.getQty();
         ItemDto itemDto = ItemDto.builder().itemName(itemName).qty(qty).build();
